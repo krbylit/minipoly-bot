@@ -82,15 +82,17 @@ class RealEstateGame:
 
     def space_info(self, player_name: str):
         """Prints information about the player's current space."""
-        player_space: Space = self._players[player_name].get_current_space()
-        position: int = player_space.get_position()
-        owner: Player = player_space.get_owner()
-        buy_value: int = player_space.get_buy_value()
-        rent_value: int = player_space.get_rent_value()
-        print(f"Position: {position}")
-        print(f"Owner: {owner}")
-        print(f"Buy Cost: {buy_value}")
-        print(f"Rent Price: {rent_value}")
+        player_space = self._players[player_name].get_current_space()
+        try:
+            owner = player_space.get_owner().get_name()
+        except AttributeError:
+            owner = "None"
+        return {
+            "position": player_space.get_position(),
+            "owner": owner,
+            "buy_value": player_space.get_buy_value(),
+            "rent_value": player_space.get_rent_value(),
+        }
 
     def move_player(self, player_name: str, move_spaces: int):
         """Moves player a certain number of spaces. Checks if player's balance > 0; if
